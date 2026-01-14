@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔍 Arrow Kill
 
-## Getting Started
+> **A powerful, intelligent web scraping solution built with Next.js**
 
-First, run the development server:
+Arrow.Kill is a modern web scraping application that intelligently extracts data from any website using both static and dynamic scraping techniques. Built with performance and reliability in mind.
+
+---
+
+## ✨ Key Features
+
+- **🎯 Smart Scraping** – Automatically detects and switches between static and dynamic scraping modes
+- **⚡ Lightning Fast** – Optimized with queue-based processing for bulk operations
+- **🎨 Modern UI** – Clean, intuitive interface for seamless scraping experience
+- **📦 Multiple Formats** – Export data as JSON, CSV, or ZIP archives
+- **🔄 Dynamic Content** – Handles JavaScript-rendered pages with Puppeteer
+- **📊 Full Extraction** – Comprehensive data capture including text, images, links, and metadata
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ or Yarn
+
+### Installation
 
 ```bash
-npm run dev
-# or
+# Install dependencies
+yarn install
+
+# Run development server
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to start scraping.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💡 Usage
 
-## Learn More
+1. **Enter URL(s)** – Single or multiple URLs for bulk scraping
+2. **Choose Mode** – Select static, dynamic, or auto-detect mode
+3. **Scrape** – Click to extract data
+4. **Export** – Download results in your preferred format
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Built With
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js 16** – React framework for production
+- **Cheerio** – Fast, flexible HTML parsing
+- **Puppeteer** – Headless browser automation
+- **TailwindCSS 4** – Modern styling
+- **TypeScript** – Type-safe development
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is private and proprietary.
+
+---
+
+<div align="center">
+  <strong>Built with ❤️ for efficient web scraping</strong>
+</div>
