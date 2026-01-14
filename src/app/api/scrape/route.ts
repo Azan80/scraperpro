@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
                 url: body.url,
                 selectors: body.selectors || { title: 'title', description: 'meta[name="description"]' },
                 mode: body.mode || 'auto',
-                timeout: body.timeout || 30000,
+                timeout: body.timeout || 300000,
                 waitForSelector: body.waitForSelector
             };
 
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
                 mode: body.mode || 'auto',
                 concurrency: body.concurrency || 3,
                 delay: body.delay || 1000,
-                timeout: body.timeout || 30000
+                timeout: body.timeout || 300000
             };
 
             const jobId = await createScrapeJob(
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
                 {
                     concurrency: bulkRequest.concurrency || 3,
                     delay: bulkRequest.delay || 1000,
-                    timeout: bulkRequest.timeout || 30000
+                    timeout: body.timeout || 300000,
                 }
             );
 

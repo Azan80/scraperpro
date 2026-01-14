@@ -3,7 +3,7 @@ import type { ScraperConfig, ScrapeResult } from './types';
 
 // Static scraping using Cheerio
 export async function scrapeStatic(config: ScraperConfig): Promise<ScrapeResult> {
-    const { url, selectors, timeout = 30000 } = config;
+    const { url, selectors, timeout = 300000 } = config;
 
     try {
         const controller = new AbortController();
@@ -48,7 +48,7 @@ export async function scrapeStatic(config: ScraperConfig): Promise<ScrapeResult>
 
 // Dynamic scraping using Puppeteer
 export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult> {
-    const { url, selectors, timeout = 30000, waitForSelector } = config;
+    const { url, selectors, timeout = 300000, waitForSelector } = config;
 
     let browser = null;
 
@@ -251,7 +251,7 @@ export async function scrape(config: ScraperConfig): Promise<ScrapeResult> {
 
 // Scrape with full page content extraction (more comprehensive)
 export async function scrapeWithFullExtraction(config: ScraperConfig): Promise<ScrapeResult> {
-    const { url, timeout = 30000 } = config;
+    const { url, timeout = 300000 } = config;
 
     try {
         // Try static first for speed
@@ -302,7 +302,7 @@ export async function scrapeWithFullExtraction(config: ScraperConfig): Promise<S
 
 // Dynamic scraping with full extraction
 async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<ScrapeResult> {
-    const { url, timeout = 30000 } = config;
+    const { url, timeout = 300000 } = config;
     let browser = null;
 
     try {
