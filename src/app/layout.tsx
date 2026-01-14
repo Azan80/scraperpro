@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Head from "next/head";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import JsonLd from "@/components/JsonLd";
@@ -95,7 +96,7 @@ export const metadata: Metadata = {
 
   // Verification tags (add your actual verification codes)
   verification: {
-    google: "your-google-verification-code", // Replace with actual code
+    google: "zwv5nMuY8bDSx3WSPDlcrE5GF5Q2DBBBxjCbZrJyiLU", // Google site verification
     yandex: "your-yandex-verification-code", // Replace with actual code
     // bing: "your-bing-verification-code",
   },
@@ -115,6 +116,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <meta name="google-site-verification" content="zwv5nMuY8bDSx3WSPDlcrE5GF5Q2DBBBxjCbZrJyiLU" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
