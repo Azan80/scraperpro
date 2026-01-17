@@ -1,4 +1,4 @@
-# 🔍 Arrow Kill
+# 🔍 Arrow Kill Scraper Pro
 
 > **A powerful, intelligent web scraping solution built with Next.js**
 
