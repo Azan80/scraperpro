@@ -15,7 +15,8 @@ export async function POST(request: NextRequest) {
                 selectors: body.selectors || { title: 'title', description: 'meta[name="description"]' },
                 mode: body.mode || 'auto',
                 timeout: body.timeout || 300000,
-                waitForSelector: body.waitForSelector
+                waitForSelector: body.waitForSelector,
+                proxy: body.proxy
             };
 
             // Use full extraction if requested or if no selectors provided
