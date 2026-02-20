@@ -60,7 +60,9 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
         const isDev = process.env.NODE_ENV === 'development';
         const executablePath = await (isDev
             ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-            : chromium.default.executablePath());
+            : chromium.default.executablePath(
+                'https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar'
+            ));
 
         const launchOptions: any = {
             headless: true,
@@ -320,7 +322,9 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
         const isDev = process.env.NODE_ENV === 'development';
         const executablePath = await (isDev
             ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-            : chromium.default.executablePath());
+            : chromium.default.executablePath(
+                'https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar'
+            ));
 
         const launchOptions: any = {
             headless: true,
