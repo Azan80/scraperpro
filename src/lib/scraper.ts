@@ -48,7 +48,7 @@ export async function scrapeStatic(config: ScraperConfig): Promise<ScrapeResult>
 
 // Dynamic scraping using Puppeteer
 export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult> {
-    const { url, selectors, timeout = 300000, waitForSelector } = config;
+    const { url, selectors, timeout = 300000, waitForSelector, proxy } = config;
 
     let browser = null;
 
@@ -75,6 +75,10 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
                 '--single-process'
             ]
         };
+
+        if (proxy) {
+            launchOptions.args.push(`--proxy-server=${proxy}`);
+        }
 
         if (executablePath) {
             launchOptions.executablePath = executablePath;
@@ -358,7 +362,7 @@ export async function scrapeWithFullExtraction(config: ScraperConfig): Promise<S
 
 // Dynamic scraping with full extraction
 async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<ScrapeResult> {
-    const { url, timeout = 300000 } = config;
+    const { url, timeout = 300000, proxy } = config;
     let browser = null;
 
     try {
@@ -378,6 +382,10 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
             executablePath: executablePath,
             args: isDev ? [] : chromium.default.args,
         };
+
+        if (proxy) {
+            launchOptions.args.push(`--proxy-server=${proxy}`);
+        }
 
         browser = await puppeteer.launch(launchOptions);
 
