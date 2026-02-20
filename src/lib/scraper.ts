@@ -56,12 +56,11 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
         // Dynamically import puppeteer to avoid issues with SSR
         const puppeteer = await import('puppeteer');
 
-        // Use system Chrome - Puppeteer's bundled Chrome can have issues on Mac ARM
-        const chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+        // Use system Chrome on Mac during development, otherwise use env var or bundled Chromium
+        const executablePath = process.env.CHROME_BIN || process.env.PUPPETEER_EXECUTABLE_PATH || (process.env.NODE_ENV === 'development' ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' : undefined);
 
-        browser = await puppeteer.default.launch({
+        const launchOptions: any = {
             headless: true,
-            executablePath: chromePath,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -70,7 +69,13 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
                 '--disable-gpu',
                 '--single-process'
             ]
-        });
+        };
+
+        if (executablePath) {
+            launchOptions.executablePath = executablePath;
+        }
+
+        browser = await puppeteer.default.launch(launchOptions);
 
         const page = await browser.newPage();
 
@@ -307,11 +312,12 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
 
     try {
         const puppeteer = await import('puppeteer');
-        const chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
-        browser = await puppeteer.default.launch({
+        // Use system Chrome on Mac during development, otherwise use env var or bundled Chromium
+        const executablePath = process.env.CHROME_BIN || process.env.PUPPETEER_EXECUTABLE_PATH || (process.env.NODE_ENV === 'development' ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' : undefined);
+
+        const launchOptions: any = {
             headless: true,
-            executablePath: chromePath,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -320,7 +326,13 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
                 '--disable-gpu',
                 '--single-process'
             ]
-        });
+        };
+
+        if (executablePath) {
+            launchOptions.executablePath = executablePath;
+        }
+
+        browser = await puppeteer.default.launch(launchOptions);
 
         const page = await browser.newPage();
         await page.setUserAgent(
