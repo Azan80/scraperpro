@@ -53,9 +53,14 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
     let browser = null;
 
     try {
-        // Dynamically import puppeteer-core and @sparticuz/chromium to avoid issues with SSR
-        const puppeteer = await import('puppeteer-core');
+        // Dynamically import puppeteer-core, extra, stealth and @sparticuz/chromium to avoid issues with SSR
+        const puppeteerCore = await import('puppeteer-core');
+        const { addExtra } = await import('puppeteer-extra');
+        const StealthPlugin = (await import('puppeteer-extra-plugin-stealth')).default;
         const chromium = await import('@sparticuz/chromium');
+
+        const puppeteer = addExtra(puppeteerCore as any);
+        puppeteer.use(StealthPlugin());
 
         const isDev = process.env.NODE_ENV === 'development';
         const executablePath = await (isDev
@@ -80,7 +85,7 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
             launchOptions.executablePath = executablePath;
         }
 
-        browser = await puppeteer.default.launch(launchOptions);
+        browser = await puppeteer.launch(launchOptions);
 
         const page = await browser.newPage();
 
@@ -316,8 +321,13 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
     let browser = null;
 
     try {
-        const puppeteer = await import('puppeteer-core');
+        const puppeteerCore = await import('puppeteer-core');
+        const { addExtra } = await import('puppeteer-extra');
+        const StealthPlugin = (await import('puppeteer-extra-plugin-stealth')).default;
         const chromium = await import('@sparticuz/chromium');
+
+        const puppeteer = addExtra(puppeteerCore as any);
+        puppeteer.use(StealthPlugin());
 
         const isDev = process.env.NODE_ENV === 'development';
         const executablePath = await (isDev
@@ -333,7 +343,7 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
             args: isDev ? [] : chromium.default.args,
         };
 
-        browser = await puppeteer.default.launch(launchOptions);
+        browser = await puppeteer.launch(launchOptions);
 
         const page = await browser.newPage();
         await page.setUserAgent(
