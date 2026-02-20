@@ -53,14 +53,9 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
     let browser = null;
 
     try {
-        // Dynamically import puppeteer-core, extra, stealth and @sparticuz/chromium to avoid issues with SSR
-        const puppeteerCore = await import('puppeteer-core');
-        const { addExtra } = await import('puppeteer-extra');
-        const StealthPlugin = (await import('puppeteer-extra-plugin-stealth')).default;
+        // Dynamically import puppeteer-core and @sparticuz/chromium to avoid issues with SSR
+        const puppeteer = await import('puppeteer-core');
         const chromium = await import('@sparticuz/chromium');
-
-        const puppeteer = addExtra(puppeteerCore as any);
-        puppeteer.use(StealthPlugin());
 
         const isDev = process.env.NODE_ENV === 'development';
         const executablePath = await (isDev
@@ -89,9 +84,26 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
 
         const page = await browser.newPage();
 
+        await page.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Sec-Fetch-User': '?1',
+        });
+
         await page.setUserAgent(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         );
+
+        // Optional evasion techniques
+        await page.evaluateOnNewDocument(() => {
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => false,
+            });
+        });
 
         await page.goto(url, {
             waitUntil: 'networkidle2',
@@ -321,13 +333,8 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
     let browser = null;
 
     try {
-        const puppeteerCore = await import('puppeteer-core');
-        const { addExtra } = await import('puppeteer-extra');
-        const StealthPlugin = (await import('puppeteer-extra-plugin-stealth')).default;
+        const puppeteer = await import('puppeteer-core');
         const chromium = await import('@sparticuz/chromium');
-
-        const puppeteer = addExtra(puppeteerCore as any);
-        puppeteer.use(StealthPlugin());
 
         const isDev = process.env.NODE_ENV === 'development';
         const executablePath = await (isDev
@@ -346,9 +353,27 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
         browser = await puppeteer.launch(launchOptions);
 
         const page = await browser.newPage();
+
+        await page.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Sec-Fetch-User': '?1',
+        });
+
         await page.setUserAgent(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         );
+
+        // Optional evasion techniques
+        await page.evaluateOnNewDocument(() => {
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => false,
+            });
+        });
 
         await page.goto(url, { waitUntil: 'networkidle2', timeout });
 
