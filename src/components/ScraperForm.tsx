@@ -10,6 +10,7 @@ interface ScraperFormProps {
         concurrency: number;
         delay: number;
         fullExtract: boolean;
+        proxy?: string;
     }) => void;
     isLoading: boolean;
 }
@@ -24,6 +25,7 @@ export default function ScraperForm({ onSubmit, isLoading }: ScraperFormProps) {
     const [concurrency, setConcurrency] = useState(3);
     const [delay, setDelay] = useState(1000);
     const [fullExtract, setFullExtract] = useState(true);
+    const [proxy, setProxy] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,7 +48,8 @@ export default function ScraperForm({ onSubmit, isLoading }: ScraperFormProps) {
             mode,
             concurrency,
             delay,
-            fullExtract
+            fullExtract,
+            proxy: proxy || undefined
         });
     };
 
@@ -80,6 +83,23 @@ export default function ScraperForm({ onSubmit, isLoading }: ScraperFormProps) {
                     placeholder="Enter URLs (one per line)&#10;https://example.com&#10;https://another-site.com"
                     className="w-full premium-input rounded-none px-4 py-3 text-sm font-mono h-32 resize-none"
                     required
+                />
+            </div>
+
+            {/* Proxy Input */}
+            <div className="space-y-2">
+                <label className="flex items-center gap-2 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                    <svg className="w-4 h-4 text-neon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                    </svg>
+                    Residential Proxy (Optional)
+                </label>
+                <input
+                    type="text"
+                    value={proxy}
+                    onChange={(e) => setProxy(e.target.value)}
+                    placeholder="http://user:pass@domain:port"
+                    className="w-full premium-input rounded-none px-4 py-3 text-sm font-mono"
                 />
             </div>
 

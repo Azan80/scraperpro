@@ -40,6 +40,7 @@ export default function Home() {
     concurrency: number;
     delay: number;
     fullExtract: boolean;
+    proxy?: string;
   }) => {
     setIsLoading(true);
     setError(null);
@@ -55,7 +56,8 @@ export default function Home() {
             url: data.urls[0],
             selectors: data.fullExtract ? {} : data.selectors,
             mode: data.mode,
-            fullExtract: data.fullExtract
+            fullExtract: data.fullExtract,
+            proxy: data.proxy
           })
         });
 
@@ -77,7 +79,8 @@ export default function Home() {
             mode: data.mode,
             concurrency: data.concurrency,
             delay: data.delay,
-            fullExtract: data.fullExtract
+            fullExtract: data.fullExtract,
+            proxy: data.proxy
           })
         });
 
