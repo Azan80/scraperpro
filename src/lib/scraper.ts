@@ -53,11 +53,14 @@ export async function scrapeDynamic(config: ScraperConfig): Promise<ScrapeResult
     let browser = null;
 
     try {
-        // Dynamically import puppeteer to avoid issues with SSR
-        const puppeteer = await import('puppeteer');
+        // Dynamically import puppeteer-core and @sparticuz/chromium to avoid issues with SSR
+        const puppeteer = await import('puppeteer-core');
+        const chromium = await import('@sparticuz/chromium');
 
-        // Use system Chrome on Mac during development, otherwise use env var or bundled Chromium
-        const executablePath = process.env.CHROME_BIN || process.env.PUPPETEER_EXECUTABLE_PATH || (process.env.NODE_ENV === 'development' ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' : undefined);
+        const isDev = process.env.NODE_ENV === 'development';
+        const executablePath = await (isDev
+            ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+            : chromium.default.executablePath());
 
         const launchOptions: any = {
             headless: true,
@@ -311,26 +314,20 @@ async function scrapeDynamicWithFullExtraction(config: ScraperConfig): Promise<S
     let browser = null;
 
     try {
-        const puppeteer = await import('puppeteer');
+        const puppeteer = await import('puppeteer-core');
+        const chromium = await import('@sparticuz/chromium');
 
-        // Use system Chrome on Mac during development, otherwise use env var or bundled Chromium
-        const executablePath = process.env.CHROME_BIN || process.env.PUPPETEER_EXECUTABLE_PATH || (process.env.NODE_ENV === 'development' ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' : undefined);
+        const isDev = process.env.NODE_ENV === 'development';
+        const executablePath = await (isDev
+            ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+            : chromium.default.executablePath());
 
         const launchOptions: any = {
             headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--disable-gpu',
-                '--single-process'
-            ]
+            defaultViewport: null,
+            executablePath: executablePath,
+            args: isDev ? [] : chromium.default.args,
         };
-
-        if (executablePath) {
-            launchOptions.executablePath = executablePath;
-        }
 
         browser = await puppeteer.default.launch(launchOptions);
 
